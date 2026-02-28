@@ -3,7 +3,7 @@ import { ProjectCard } from '@/components/project-card';
 import { ThemeToggle } from '@/components/theme-toggle';
 import { ProjectsClient } from '@/components/projects-client';
 
-export const revalidate = 60; // Revalidate every minute
+export const revalidate = 60; // Revalidate every minutes
 
 export default async function Home() {
   let projects: Awaited<ReturnType<typeof getVercelProjects>> = [];
