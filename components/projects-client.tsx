@@ -13,8 +13,11 @@ interface ProjectsClientProps {
 export function ProjectsClient({ initialProjects, initialError }: ProjectsClientProps) {
   const [projects, setProjects] = useState(initialProjects);
   const [error, setError] = useState(initialError);
+  const [mounted, setMounted] = useState(false);
 
   useEffect(() => {
+    setMounted(true);
+    
     // Poll for updates every 30 seconds
     const interval = setInterval(async () => {
       try {
@@ -34,6 +37,10 @@ export function ProjectsClient({ initialProjects, initialError }: ProjectsClient
 
     return () => clearInterval(interval);
   }, []);
+
+  if (!mounted) {
+    return null;
+  }
 
   return (
     <div className="min-h-screen bg-white dark:bg-black transition-colors duration-300">
