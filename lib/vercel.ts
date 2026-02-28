@@ -46,7 +46,7 @@ export async function getVercelProjects(): Promise<VercelProject[]> {
     headers: {
       Authorization: `Bearer ${token}`,
     },
-    next: { revalidate: 3600 }, // Cache for 1 hour
+    next: { revalidate: 60 }, // Cache for 1 minute
   });
 
   if (!response.ok) {
