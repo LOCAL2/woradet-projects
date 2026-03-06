@@ -14,7 +14,9 @@ export function ProjectCard({ project, index }: ProjectCardProps) {
   // ใช้ production domain แทน deployment URL
   const productionDomain = project.targets?.production?.alias?.[0] || `${project.name}.vercel.app`;
   const fullUrl = `https://${productionDomain}`;
-  const screenshotUrl = `https://api.microlink.io/?url=${encodeURIComponent(fullUrl)}&screenshot=true&meta=false&embed=screenshot.url`;
+  
+  // ใช้ Vercel's OG Image API แทน
+  const screenshotUrl = `https://v1.screenshot.11ty.dev/${encodeURIComponent(fullUrl)}/opengraph/`;
 
   const latestDeployment = project.latestDeployments?.[0];
   const deploymentDate = latestDeployment?.createdAt || latestDeployment?.created;
