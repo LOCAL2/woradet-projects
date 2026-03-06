@@ -10,6 +10,7 @@ interface ProjectCardProps {
 
 export function ProjectCard({ project, index }: ProjectCardProps) {
   const [imageError, setImageError] = useState(false);
+  const [imageLoading, setImageLoading] = useState(true);
   
   // ใช้ production domain แทน deployment URL
   const productionDomain = project.targets?.production?.alias?.[0] || `${project.name}.vercel.app`;
@@ -86,12 +87,23 @@ export function ProjectCard({ project, index }: ProjectCardProps) {
       <a href={fullUrl} target="_blank" rel="noopener noreferrer" className="block">
         {/* Screenshot Preview */}
         <div className="relative aspect-video overflow-hidden bg-gradient-to-br from-zinc-100 to-zinc-200 dark:from-zinc-800 dark:to-zinc-900">
+          {/* Loading skeleton */}
+          {imageLoading && !imageError && (
+            <div className="absolute inset-0 flex items-center justify-center">
+              <div className="w-12 h-12 border-4 border-zinc-300 dark:border-zinc-700 border-t-zinc-600 dark:border-t-zinc-400 rounded-full animate-spin"></div>
+            </div>
+          )}
+          
           {!imageError ? (
             <img
               src={screenshotUrl}
               alt={`${project.name} preview`}
-              className="w-full h-full object-cover transition-transform duration-700 group-hover:scale-110"
-              onError={() => setImageError(true)}
+              className={`w-full h-full object-cover transition-all duration-700 group-hover:scale-110 ${imageLoading ? 'opacity-0' : 'opacity-100'}`}
+              onLoad={() => setImageLoading(false)}
+              onError={() => {
+                setImageError(true);
+                setImageLoading(false);
+              }}
               loading="lazy"
             />
           ) : (
